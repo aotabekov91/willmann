@@ -192,10 +192,12 @@ class WikiMode(AppMode):
     def getWikis(self, wiki_folder=None, ext='wk'):
 
         def setWikiLinks(lines):
+
             folders=[l['folder'] for l in lines.values()]
             for path, line in lines.items():
                 filePath=line['path']
                 line['links']=[]
+
                 with open(filePath, 'r') as current_file:
                     md_data = current_file.read().replace('\n',' ')
                     try:
@@ -259,10 +261,11 @@ class WikiMode(AppMode):
                     line=re.sub('^[^[]*', '', line)
                     data={}
                     data['up']=line.strip('\n')
+                    data['down']=d['path'].split('/')[-1]
                     data['line']=i+1
                     data['path']=d['path']
                     todos+=[data]
-        self.todos=sorted(todos, key=lambda x: x['path'])
+        self.todos=sorted(todos, key=lambda x: x['down'])
         self.ui.todos.setList(self.todos)
 
 if __name__=='__main__':

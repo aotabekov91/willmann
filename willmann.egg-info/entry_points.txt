@@ -1,0 +1,2 @@
+[console_scripts]
+willmann = willmann.run:main

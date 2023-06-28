@@ -193,7 +193,7 @@ class TaskMode(AppMode):
               'time':datetime.datetime.now()}
         self.db.pomodoros.writeRow(data)
 
-    @register('s')
+    @register('S')
     def start(self):
 
         if self.timer.activated: self.finish()
@@ -243,7 +243,7 @@ class TaskMode(AppMode):
             self.db.tasks_table.removeRow({'id':task_id})
             self.showTasks()
 
-    @register('S')
+    @register('s')
     def showStatus(self):
 
         self.updateStatus()
@@ -316,7 +316,7 @@ class TaskMode(AppMode):
             if i:
                 name='>'.join([self.db.tasks[t[0]].desc for t in j])
                 row=self.db.tasks_table.getRow({'id': i})
-                if row:
+                if row and name:
                     task_data=row[0]
                     task_data['up']=name
                     task_data.pop('color')
