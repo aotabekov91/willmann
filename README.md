@@ -32,5 +32,7 @@ After installing all required custom packages, run pip3 install -r requirements
 
 ## Todos
 
+* [ ] Upload flashcard package
+* [ ] Upload translate package
 * [ ] Remove i3 window size dependency
 * [ ] Implement a system-wide call shortcut, so that it does not depend on an i3 shortcut call.
