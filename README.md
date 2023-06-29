@@ -14,7 +14,7 @@ Also, depending on which plugins you use, you need:
 1. [flashcard]()
 2. [translate]()
 
-After installing [plugin](https://github.com/aotabekov91/plugin), run pip3 install -r requirements
+After installing all required custom packages, run pip3 install -r requirements
 
 ## Usage
 
@@ -32,5 +32,5 @@ After installing [plugin](https://github.com/aotabekov91/plugin), run pip3 insta
 
 ## Todos
 
-[ ] Remove i3 window size dependency
-[ ] Implement a system-wide call shortcut, so that it does not depend on an i3 shortcut call.
+* [ ] Remove i3 window size dependency
+* [ ] Implement a system-wide call shortcut, so that it does not depend on an i3 shortcut call.
