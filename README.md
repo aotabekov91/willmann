@@ -4,7 +4,15 @@ It is a launcher that can run (almost) everything you need.
 
 ## Install
 
-It requires a package called [plugin](https://github.com/aotabekov91/plugin). 
+It requires the following package: 
+
+1. [plugin](https://github.com/aotabekov91/plugin)
+2. [tables](https://github.com/aotabekov91/tables)
+
+Also, depending on which plugins you use, you need:
+
+1. [flashcard]()
+2. [translate]()
 
 After installing [plugin](https://github.com/aotabekov91/plugin), run pip3 install -r requirements
 
@@ -15,6 +23,10 @@ After installing [plugin](https://github.com/aotabekov91/plugin), run pip3 insta
 ### Look up a definition 
 
 ### Change keyboard layout
+
+### Player control
+
+### Bookmark create/search
 
 ### Etc.
 
