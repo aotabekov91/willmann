@@ -30,6 +30,24 @@ After installing all required custom packages, run pip3 install -r requirements
 
 ### Etc.
 
+## How to extend [i.e., creating a new mode]
+
+Say, you want to quickly search for country-specific information [e.g., its population, location on the map, etc]. Then, you can do the following:
+
+1. Parse need information form the wikipedia
+2. Create a new mode that displays this info
+
+### 1st stage
+
+Todo
+
+### 2nd stage
+
+Todo
+
+```python
+```
+
 ## Todos
 
 * [ ] Upload flashcard package
