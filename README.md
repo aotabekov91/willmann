@@ -1,15 +1,24 @@
-The Master does his job and then stops.
+# Willmann
 
-He understands that the universe is forever out of control,
-and that trying to dominate events is against the Tao.
+It is a launcher that can run (almost) everything you need.
 
-Because he believes in himself,
-he doesn't try to convince others.
+## Install
 
-Because he is content with himself,
-he doesn't need others' approval.
+It requires a package called [plugin](https://github.com/aotabekov91/plugin). 
 
-Because he accepts himself,
-the whole world accepts him.
+After installing [plugin](https://github.com/aotabekov91/plugin), run pip3 install -r requirements
 
-Tao Te Ching
+## Usage
+
+### Run an application
+
+### Look up a definition 
+
+### Change keyboard layout
+
+### Etc.
+
+## Todos
+
+[ ] Remove i3 window size dependency
+[ ] Implement a system-wide call shortcut, so that it does not depend on an i3 shortcut call.
