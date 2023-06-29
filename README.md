@@ -9,7 +9,7 @@ It requires the following package:
 1. [plugin](https://github.com/aotabekov91/plugin)
 2. [tables](https://github.com/aotabekov91/tables)
 
-Also, depending on which plugins you use, you need:
+Also, depending on which modes you use, you need:
 
 1. [flashcard]()
 2. [translate]()
