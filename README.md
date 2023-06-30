@@ -43,7 +43,7 @@ chmod +x build.sh
 
 Say, you want to quickly search for country-specific information [e.g., its population, location on the map, etc]. Then, you can do the following:
 
-1. Parse needed information form the wikipedia
+1. Parse needed information from the wikipedia [and probably save it in a sqlite/postgresql database using tables so that the first step is done only once]
 2. Create a new mode that displays this info
 
 ### 1st stage
