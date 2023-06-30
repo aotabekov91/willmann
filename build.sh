@@ -8,11 +8,11 @@ source .venv/bin/activate
 
 # Get and install :plugin:
 git clone https://github.com/aotabekov91/plugin
-cd plugin; pip install -r requirements; cd ..
+cd plugin; pip install -r requirements.txt; cd ..
 
 # Get and install :tables:
 git clone https://github.com/aotabekov91/tables
-cd tables; pip install -r requirements; cd ..
+cd tables; pip install -r requirements.txt; cd ..
 
 # Get and install :willmann:
-pip install -r requirements
+pip install -r requirements.txt
