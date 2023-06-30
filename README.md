@@ -14,7 +14,15 @@ Also, depending on which modes you use, you need:
 1. [flashcard]()
 2. [translate]()
 
-After installing all required custom packages, run pip3 install -r requirements
+After installing all required custom packages, run pip3 install -r requirements. It is advised first to try the application in a separate virtual enviroment. 
+
+You can also simply run a bash build command:
+
+```bash
+git clone willmann
+cd willmann
+./build.sh
+```
 
 ## Usage
 
@@ -54,3 +62,4 @@ Todo
 * [ ] Upload translate package
 * [ ] Remove i3 window size dependency
 * [ ] Implement a system-wide call shortcut, so that it does not depend on an i3 shortcut call.
+* [ ] Factor out all modes in a separate git rep (except probably moder).
