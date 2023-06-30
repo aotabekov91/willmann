@@ -21,6 +21,7 @@ You can also simply run a bash build command:
 ```bash
 git clone willmann
 cd willmann
+chmod +x build.sh
 ./build.sh
 ```
 
