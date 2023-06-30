@@ -47,7 +47,8 @@ Say, you want to quickly search for country-specific information [e.g., its popu
   * I leave this step to you [not difficult but boring]
   * Assume you have the following list of dicts with country data:
   * dlist=[{'name':'Laconia', 'population': 10000000, 'flag':image_url, 'anthem':audio_url, 'etc':'etc'}, {'name': 'Auberon', 'population':100, 'flag':image_url, 'anthem':audio_url, 'etc':'etc'}
-3. Create a new mode that displays this info
+
+2. Create a new mode that displays this info
 
 ### 1st stage
 
