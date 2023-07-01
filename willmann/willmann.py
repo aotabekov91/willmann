@@ -5,10 +5,6 @@ import inspect
 import importlib
 import multiprocessing
 
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-
 from plugin.plug import Plug
 from tendo import singleton
 
@@ -31,10 +27,12 @@ class Willmann(Plug):
 
         super().setSettings()
 
+        self.modes_path=None
         file_path=os.path.abspath(inspect.getfile(self.__class__))
         folder_path=os.path.dirname(file_path).replace('\\', '/')
         modes_path=os.path.join(folder_path, 'modes')
-        if os.path.isdir(modes_path): self.paths=[modes_path]
+        if os.path.exists(modes_path): 
+            self.modes_path=modes_path
 
     def loadModes(self):
 
@@ -43,28 +41,27 @@ class Willmann(Plug):
             def start(mode_class, willmann_port):
 
                 try:
-
                     mode=mode_class(parent_port=willmann_port)
                     mode.run()
-
                 except:
                     print(mode_class, 'Error')
-
+                    raise
 
             t=multiprocessing.Process(
                     target=start, 
                     args=(mode_class, willmann_port))
             t.deamon=True
             t.start()
-        
-        for modes_path in self.paths:
-            sys.path=[modes_path]+sys.path
 
-            for mode in os.listdir(modes_path):
+        if self.modes_path:
+
+            sys.path=[self.modes_path]+sys.path
+            for mode in os.listdir(self.modes_path):
                 plugin=importlib.import_module(mode)
-                if hasattr(plugin, 'get_mode'):
-                    mode_class=plugin.get_mode()
-                    run_in_background(mode_class, self.port)
+                if mode in self.modes_include:
+                    if hasattr(plugin, 'get_mode'):
+                        mode_class=plugin.get_mode()
+                        run_in_background(mode_class, self.port)
 
     def setMode(self, mode):
 
@@ -152,14 +149,11 @@ class Willmann(Plug):
 
     def run(self):
 
-        instance=singleton.SingleInstance()
-
+        singleton.SingleInstance()
         self.loadModes()
         super().run()
 
     def exit(self):
 
-        for mode in self.modes:
-            self.act(mode, 'exit')
-
+        for mode in self.modes: self.act(mode, 'exit')
         super().exit()

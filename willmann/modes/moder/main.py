@@ -1,15 +1,5 @@
-import os
-import sys
-import zmq
-
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-
-from plugin.app import register
-from plugin.widget import InputListStack
-
 from plugin.app.mode import AppMode
+from plugin.widget import InputListStack
 
 class Moder(AppMode):
 
@@ -26,24 +16,10 @@ class Moder(AppMode):
     def setUI(self):
 
         self.ui=InputListStack()
-
         self.ui.main.input.setLabel('Mode')
         self.ui.hideWanted.connect(self.deactivate)
         self.ui.main.returnPressed.connect(self.confirm)
-
         self.ui.installEventFilter(self)
-
-    def toggle(self): 
-
-        if not self.ui.isVisible(): 
-            self.activate()
-        else:
-            self.deactivate()
-
-    def activate(self):
-
-        super().activate()
-        self.ui.main.setList(self.modes)
 
     def confirm(self):
 
@@ -57,7 +33,7 @@ class Moder(AppMode):
                      'mode':mode,
                      'action': 'activate',
                      })
-            respond=self.parent_socket.recv_json()
+            self.parent_socket.recv_json()
 
     def update(self, request):
 
@@ -67,8 +43,4 @@ class Moder(AppMode):
             self.modes=[]
             for name, data in modes.items():
                 if name!=self.__class__.__name__: self.modes+=[{'up':name, 'id':name}]
-
-if __name__=='__main__':
-    app=Moder(port=33332, parent_port=9999)
-    app.toggle()
-    app.run()
+            self.ui.main.setList(self.modes)

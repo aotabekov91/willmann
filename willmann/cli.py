@@ -1,6 +1,5 @@
 import zmq
 import argparse
-
 from tendo import singleton
 
 from plugin.plug import Plug
