@@ -16,8 +16,9 @@ cd willmann
 chmod +x build.sh
 ./build.sh
 ```
-
 ## Usage
+
+Initially, willmann comes with only one mode, Moder. Moder lists just all available modes. To choose all installed modes, press Alt+m. 
 
 ### Run an application
 
