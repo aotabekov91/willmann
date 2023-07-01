@@ -11,7 +11,7 @@ After installing all required custom packages, run pip3 install -r requirements.
 You can also simply run a bash build command:
 
 ```bash
-git clone willmann
+git clone https://github.com/aotabekov91/willmann
 cd willmann
 chmod +x build.sh
 ./build.sh
