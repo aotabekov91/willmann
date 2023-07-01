@@ -1,9 +1,9 @@
 import zmq
 import argparse
 from tendo import singleton
-
 from plugin.plug import Plug
-from .willmann import Willmann
+
+from .main import Willmann
 
 class WillmannCLI(Plug):
 

@@ -1,2 +1,2 @@
+from .main import Willmann
 from .cli import WillmannCLI
-from .willmann import Willmann
