@@ -5,8 +5,8 @@ import inspect
 import importlib
 import multiprocessing
 
-from plugin.plug import Plug
 from tendo import singleton
+from plugin.plug import Plug
 
 class Willmann(Plug):
 
