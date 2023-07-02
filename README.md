@@ -53,22 +53,16 @@ To install modes, have a look at [modes](https://github.com/aotabekov91/willmann
 | Focus list field    | Ctrl+l         |
 | Focus input field   | Ctrl+h         |
 | Toggle input field  | Ctrl+i         |
-
-### Input field [focused]
-| Action              | Shortcut       |
-| ------------------- | ----------     |
-| Choose selection    | Enter, Ctrl+m  |
-| Focus list field    | Ctrl+l         |
 | Move up             | Ctrl+k, Ctrl+p |
 | Move down           | Ctrl+j, Ctrl+n |
 
-### List field [focused]
+### List field focused
 
-| Action              | Shortcut          |
-| ------------------- | ----------        |
-| Move up             | k, Ctrl+k, Ctrl+p |
-| Move down           | j, Ctrl+j, Ctrl+n |
-| Choose selection    | m, Ctrl+m         |
+| Action              | Shortcut   |
+| ------------------- | ---------- |
+| Move up             | k          |
+| Move down           | j          |
+| Choose selection    | m          |
 
 ### Command mode
 
