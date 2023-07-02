@@ -35,6 +35,7 @@ The first run of the application will create a configuration folder in $HOME/.co
 
 ## Todos
 
+* [ ] Run willmann with systemd at boot
 * [ ] Remove i3 window size dependency
 * [x] Factor out all modes in a separate git rep (except probably moder).
 * [x] Implement a system-wide call shortcut, so that it does not depend on an i3 shortcut call.
