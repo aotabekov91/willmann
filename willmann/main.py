@@ -63,11 +63,8 @@ class Willmann(Plug):
 
             def start(mode_class, willmann_port):
 
-                try:
-                    mode=mode_class(parent_port=willmann_port)
-                    mode.run()
-                except:
-                    print(mode_class, 'Error')
+                mode=mode_class(parent_port=willmann_port)
+                mode.run()
 
             t=multiprocessing.Process(
                     target=start, 
@@ -75,20 +72,25 @@ class Willmann(Plug):
             t.deamon=True
             t.start()
 
+        def load(mode):
+
+            plugin=importlib.import_module(mode)
+            if mode in self.modes_include:
+                if hasattr(plugin, 'get_mode'):
+                    mode_class=plugin.get_mode()
+                    run_in_background(mode_class, self.port)
+
         self.modes_path=self.config_folder/'modes'
 
         if self.modes_path:
 
             sys.path=[str(self.modes_path)]+sys.path
-            for mode in os.listdir(self.modes_path):
+            for mode in os.listdir(self.modes_path): 
+
                 try:
-                    plugin=importlib.import_module(mode)
-                    if mode in self.modes_include:
-                        if hasattr(plugin, 'get_mode'):
-                            mode_class=plugin.get_mode()
-                            run_in_background(mode_class, self.port)
+                    load(mode)
                 except:
-                    print(mode, 'Error')
+                    print('Error', mode)
 
     def setMode(self, mode):
 
