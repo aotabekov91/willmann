@@ -68,7 +68,6 @@ class Willmann(Plug):
                     mode.run()
                 except:
                     print(mode_class, 'Error')
-                    raise
 
             t=multiprocessing.Process(
                     target=start, 
