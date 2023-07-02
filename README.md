@@ -21,6 +21,12 @@ cd plugin
 pip3 install -r requirements.txt .
 cd ..
 
+# Remove previous willmann config files
+# rm -rf $HOME/.config/willmann/config.ini
+# Remove previous willmann modes 
+# rm -rf $HOME/.config/willmann/modes
+# rm -rf $HOME/.config/willmann
+
 cd willmann
 pip3 install -r requirements.txt .
 
@@ -31,7 +37,42 @@ willmann
 
 ## Usage
 
-The first run of the application will create a configuration folder in $HOME/.config/willmann. Initially, willmann comes only with a single mode, Moder. Moder just lists all available modes. So, initially it is going to empty. To call Moder, press Alt+m. To install modes, have a look at [modes](https://github.com/aotabekov91/willmann_modes). 
+The first run of the application will create a configuration folder in $HOME/.config/willmann. 
+Moder. Moder lists all currently available modes. To call Moder, press Alt+m. 
+To install modes, have a look at [modes](https://github.com/aotabekov91/willmann_modes). 
+
+## Navigation
+
+### Comman
+
+| Action              | Shortcut       |
+| ------------------- | ----------     |
+| Toggle command mode | .              |
+| Hide window         | Escape, Ctrl+[ |
+| Choose selection    | Enter, Ctrl+m  |
+| Focus list field    | Ctrl+l         |
+| Focus input field   | Ctrl+h         |
+| Toggle input field  | Ctrl+i         |
+
+### Input field [focused]
+| Action              | Shortcut       |
+| ------------------- | ----------     |
+| Choose selection    | Enter, Ctrl+m  |
+| Focus list field    | Ctrl+l         |
+| Move up             | Ctrl+k, Ctrl+p |
+| Move down           | Ctrl+j, Ctrl+n |
+
+### List field [focused]
+
+| Action              | Shortcut          |
+| ------------------- | ----------        |
+| Move up             | k, Ctrl+k, Ctrl+p |
+| Move down           | j, Ctrl+j, Ctrl+n |
+| Choose selection    | m, Ctrl+m         |
+
+### Command mode
+
+Todo
 
 ## Todos
 
