@@ -24,7 +24,6 @@ cd ..
 cd willmann
 pip3 install -r requirements.txt .
 
-# python willmann/run.py
 cd $HOME
 rm -rf /tmp/willmann_code
 willmann

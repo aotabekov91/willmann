@@ -5,7 +5,6 @@ setup(name="willmann",
       description='Willmann',
       packages=find_packages(),
       include_package_data=True,
-      # package_data={'':['*', '*/*', '*/*/*', '*/*/*/*']},
-      package_data={'':['*.*']},
+      package_data={'':['*', '*/*', '*/*/*', '*/*/*/*']},
       entry_points = {'console_scripts': ['willmann = willmann.run:main']},
       )
