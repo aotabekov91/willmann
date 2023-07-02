@@ -97,6 +97,8 @@ class Willmann(Plug):
             self.previous=self.current
             self.current=mode
 
+    def toggleCurrent(self): raise
+
     def setListener(self):
 
         super().setListener(kind=zmq.REP)

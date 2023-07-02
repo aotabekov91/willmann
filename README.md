@@ -1,6 +1,6 @@
 # Willmann
 
-It is a launcher that can run (almost) everything you need. It is tested only on machine running Arch linux.
+It is a launcher that can run (almost) everything you need. It is tested only on a machine running Arch linux.
 
 ## Install
 
