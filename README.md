@@ -1,6 +1,6 @@
 # Willmann
 
-It is a launcher that can run (almost) everything you need.
+It is a launcher that can run (almost) everything you need. It is tested only on machine running Arch linux.
 
 ## Install
 
@@ -65,6 +65,10 @@ To install modes, have a look at [modes](https://github.com/aotabekov91/willmann
 | Choose selection    | m          |
 
 ### Command mode
+
+Todo
+
+## Generic mode
 
 Todo
 
