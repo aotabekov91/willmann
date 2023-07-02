@@ -7,13 +7,15 @@ It is a launcher that can run (almost) everything you need.
 It requires the following package: [plugin](https://github.com/aotabekov91/plugin) You can also simply run a bash build command:
 
 ```bash
-mkdir willmann
-cd willmann
+mkdir /tmp/willmann_code
+cd /tmp/willmann_code
+
 git clone https://github.com/aotabekov91/plugin
 git clone https://github.com/aotabekov91/willmann
 
-python -m venv venv
-source venv/bin/activate
+# Create a virtual environment
+# python -m venv venv
+# source venv/bin/activate
 
 cd plugin
 pip3 install -r requirements.txt .
@@ -22,13 +24,15 @@ cd ..
 cd willmann
 pip3 install -r requirements.txt .
 
-python willmann/run.py
+# python willmann/run.py
+cd $HOME
+rm -rf /tmp/willmann_code
+willmann
 ```
 
 ## Usage
 
-Initially, willmann comes only with a single mode, Moder. Moder just lists all available modes. So, initially it is going to empty. 
-To call Moder, press Alt+m. To install modes, have a look at [modes](https://github.com/aotabekov91/willmann_modes). 
+The first run of the application will create a configuration folder in $HOME/.config/willmann. Initially, willmann comes only with a single mode, Moder. Moder just lists all available modes. So, initially it is going to empty. To call Moder, press Alt+m. To install modes, have a look at [modes](https://github.com/aotabekov91/willmann_modes). 
 
 ## Todos
 

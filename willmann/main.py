@@ -1,10 +1,12 @@
 import os
 import sys
 import zmq
+import shutil
 import inspect
 import importlib
 import multiprocessing
 
+from pathlib import Path
 from tendo import singleton
 from plugin.plug import Plug
 
@@ -22,6 +24,31 @@ class Willmann(Plug):
         self.current=None
         self.previous=None
         self.last_command=None
+        self.createConfig()
+
+    def createConfig(self):
+
+        if not os.path.exists(
+                os.path.expanduser('~/.config/willmann')):
+
+            super().createConfig('~/.config/willmann')
+            self.modes_path=self.config_folder/'modes'
+            self.modes_path.mkdir(parents=True, exist_ok=True)
+            self.copyFiles()
+
+    def copyFiles(self):
+
+        path=Path(os.path.abspath(inspect.getfile(self.__class__)))
+
+        shutil.copytree(
+                str(path.parent/'modes'), 
+                str(self.modes_path), 
+                dirs_exist_ok=True)
+
+        if not os.path.exists(self.config_folder/'config.ini'):
+            shutil.copy(
+                    str(path.parent/'config.ini'), 
+                    str(self.config_folder/'config.ini'))
 
     def setSettings(self):
 
@@ -55,7 +82,7 @@ class Willmann(Plug):
 
         if self.modes_path:
 
-            sys.path=[self.modes_path]+sys.path
+            sys.path=[str(self.modes_path)]+sys.path
             for mode in os.listdir(self.modes_path):
                 plugin=importlib.import_module(mode)
                 if mode in self.modes_include:
