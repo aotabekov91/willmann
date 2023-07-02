@@ -28,22 +28,18 @@ class Willmann(Plug):
 
     def createConfig(self):
 
+        super().createConfig('~/.config/willmann')
+        self.modes_path=self.config_folder/'modes'
+
         if not os.path.exists(
-                os.path.expanduser('~/.config/willmann')):
+                os.path.expanduser('~/.config/willmann/modes')):
 
-            super().createConfig('~/.config/willmann')
-            self.modes_path=self.config_folder/'modes'
             self.modes_path.mkdir(parents=True, exist_ok=True)
-            self.copyFiles()
-
-    def copyFiles(self):
-
-        path=Path(os.path.abspath(inspect.getfile(self.__class__)))
-
-        shutil.copytree(
-                str(path.parent/'modes'), 
-                str(self.modes_path), 
-                dirs_exist_ok=True)
+            path=Path(os.path.abspath(inspect.getfile(self.__class__)))
+            shutil.copytree(
+                    str(path.parent/'modes'), 
+                    str(self.modes_path), 
+                    dirs_exist_ok=True)
 
         if not os.path.exists(self.config_folder/'config.ini'):
             shutil.copy(
@@ -79,6 +75,8 @@ class Willmann(Plug):
                     args=(mode_class, willmann_port))
             t.deamon=True
             t.start()
+
+        self.modes_path=self.config_folder/'modes'
 
         if self.modes_path:
 
