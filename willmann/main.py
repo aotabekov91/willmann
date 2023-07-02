@@ -81,11 +81,14 @@ class Willmann(Plug):
 
             sys.path=[str(self.modes_path)]+sys.path
             for mode in os.listdir(self.modes_path):
-                plugin=importlib.import_module(mode)
-                if mode in self.modes_include:
-                    if hasattr(plugin, 'get_mode'):
-                        mode_class=plugin.get_mode()
-                        run_in_background(mode_class, self.port)
+                try:
+                    plugin=importlib.import_module(mode)
+                    if mode in self.modes_include:
+                        if hasattr(plugin, 'get_mode'):
+                            mode_class=plugin.get_mode()
+                            run_in_background(mode_class, self.port)
+                except:
+                    print(mode, 'Error')
 
     def setMode(self, mode):
 
