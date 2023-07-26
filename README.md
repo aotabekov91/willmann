@@ -37,6 +37,9 @@ willmann
 
 ## Usage
 
+$ willmann run # Run the app
+$ willmann quit # Stop the app
+
 The first run of the application will create a configuration folder in $HOME/.config/willmann. 
 Moder. Moder lists all currently available modes. To call Moder, press Alt+m. 
 To install modes, have a look at [modes](https://github.com/aotabekov91/willmann_modes). 
