@@ -99,9 +99,7 @@ class Willmann(Plug):
 
     def toggleCurrent(self): raise
 
-    def setListener(self):
-
-        super().setListener(kind=zmq.REP)
+    def setListener(self): super().setListener(kind=zmq.REP)
 
     def handle(self, r):
 
@@ -147,7 +145,7 @@ class Willmann(Plug):
                 self.createSocket(r)
                 self.act('Moder', 'Moder_update', {'modes':self.modes})
                 msg={'status':'ok', 'action': 'registeredMode', 'info': r['mode']}
-            elif r['command']=='exit':
+            elif r['command']=='quit':
                 msg={'status':'ok', 'info':'exiting'}
                 self.exit()
             else:

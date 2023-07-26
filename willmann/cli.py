@@ -1,87 +1,96 @@
 import zmq
 import argparse
-from tendo import singleton
+
 from plugin.plug import Plug
 
 from .main import Willmann
 
 class WillmannCLI(Plug):
 
-    def __init__(self):
+    def setSettings(self):
 
-        super(WillmannCLI, self).__init__()
-
-        self.setParser()
-
-    def setParser(self):
+        super().setSettings()
 
         self.parser=argparse.ArgumentParser()
 
-        self.parser.add_argument('-p', '--port', type=int)
-        self.parser.add_argument('-a', '--actions', action='append')
-        self.parser.add_argument('-c', '--commands', action='append')
+        self.subparser=self.parser.add_subparsers(dest='command')
 
-    def setListener(self):
 
-        if self.port:
+        self.subparser.add_parser('run')
+        self.subparser.add_parser('quit')
+        self.subparser.add_parser('restart')
+        self.subparser.add_parser('command')
+
+        self.mode_parser=self.subparser.add_parser('mode')
+
+        self.mode_parser.add_argument('-m', '--mode')
+        self.mode_parser.add_argument('-p', '--port', type=int)
+
+    def setSocket(self, kind='main'): 
+
+        if kind=='main':
             self.socket = zmq.Context().socket(zmq.REQ)
             self.socket.connect(f'tcp://localhost:{self.port}')
+        elif kind=='port':
+            self.socket=zmq.Context().socket(zmq.PUSH)
+            self.port=self.socket.bind_to_random_port(
+                    'tcp://*', 
+                    min_port=10000, 
+                    max_port=16000)
 
-    def setModeConnection(self, port):
+    def portAction(self, port, args_dict):
 
         socket = zmq.Context().socket(zmq.PUSH)
         socket.connect(f'tcp://localhost:{port}')
-        return socket
+        socket.send_json(args_dict)
 
-    def portAction(self, actions, port):
+    def modeAction(self, mode, args_dict):
 
-        socket=self.setModeConnection(port)
-        for action in actions:
-            socket.send_json({'action': action})
+        cmd={'command':'setModeAction', 
+             'mode':mode, 
+             'action': args_dict}
+        self.socket.send_json(cmd)
+        print(self.socket.recv_json())
 
-    def modeAction(self, actions):
+    def commandAction(self, action):
 
-        if self.port:
-            for action in actions:
-                mode=action.split('_')[0]
+        self.socket.send_json({'command':action})
+        print(self.socket.recv_json())
 
-                cmd={'command':'setModeAction',
-                     'mode':mode,
-                     'action': action,
-                     }
-                self.socket.send_json(cmd)
-                print(self.socket.recv_json())
+    def runApp(self):
 
-    def mainCommand(self, actions):
+        app=Willmann()
 
-        if self.port:
-            for action in actions:
-                self.socket.send_json({'command':action})
-                print(self.socket.recv_json())
-
-    def runMain(self):
-
-        try: 
-
-            app=Willmann()
+        if app.socket:
             app.run()
-
-        except singleton.SingleInstanceException:
-
-            print('An instance of Willmann is already runnng')
-
-        except:
-            
-            raise
+        else:
+            print('An instance of Willmann is already running')
 
     def run(self):
 
         args=self.parser.parse_args()
-        if args.actions and args.port:
-            self.portAction(args.actions, args.port)
-        elif args.actions:
-            self.modeAction(args.actions)
-        elif args.commands:
-            self.mainCommand(args.commands)
+
+        if args.command=='mode':
+            if args.port:
+                self.setSocket(kind='port')
+                self.portAction(args.port, vars(args))
+            elif args.mode:
+                self.setSocket(kind='main')
+                self.modeAction(args.mode, vars(args))
+
         else:
-            self.runMain()
+            self.setSocket(kind='main')
+
+            if args.command=='run':
+                self.runApp()
+            elif args.command=='quit':
+                self.commandAction('quit')
+            elif args.command=='restart':
+                self.commandAction('restart')
+            elif args.command=='command':
+                self.mainAction(args.command)
+
+if __name__=='__main__':
+
+    cli = WillmannCLI()
+    cli.run()
