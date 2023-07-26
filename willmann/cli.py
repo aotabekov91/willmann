@@ -66,6 +66,8 @@ class WillmannCLI(Plug):
         else:
             print('An instance of Willmann is already running')
 
+    # TODO: finish & add socket polling in quit
+
     def run(self):
 
         args=self.parser.parse_args()

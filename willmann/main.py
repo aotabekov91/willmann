@@ -5,9 +5,8 @@ import shutil
 import inspect
 import importlib
 import multiprocessing
-
 from pathlib import Path
-from tendo import singleton
+
 from plugin.plug import Plug
 
 class Willmann(Plug):
@@ -177,7 +176,6 @@ class Willmann(Plug):
 
     def run(self):
 
-        singleton.SingleInstance()
         self.loadModes()
         super().run()
 
