@@ -122,11 +122,14 @@ class Willmann(Plug):
                 msg={'status':'ok', 'allModes':self.modes}
             elif r['command']=='setModeAction':
                 mode=r['mode']
-                action=r['action']
                 slots=r.get('slots', {})
-                self.setMode(mode)
-                self.act(mode, action, slots)
-                msg={'status':'ok', 'action':'setModeAction', 'info': r}
+                action=slots.get('action', None)
+                if action:
+                    self.setMode(mode)
+                    self.act(mode, action, slots)
+                    msg={'status':'ok', 'action':'setModeAction', 'info': r}
+                else:
+                    msg={'status':'nok', 'action':'setModeAction', 'info': r}
             elif r['command']=='notify':
                 self.act('NotifyMode', 'notify', r)
                 msg={'status':'ok', 'action':'setListener'}

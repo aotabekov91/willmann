@@ -15,15 +15,14 @@ class WillmannCLI(Plug):
 
         self.subparser=self.parser.add_subparsers(dest='command')
 
-
         self.subparser.add_parser('run')
         self.subparser.add_parser('quit')
         self.subparser.add_parser('restart')
         self.subparser.add_parser('command')
-
         self.mode_parser=self.subparser.add_parser('mode')
 
         self.mode_parser.add_argument('-m', '--mode')
+        self.mode_parser.add_argument('-a', '--action')
         self.mode_parser.add_argument('-p', '--port', type=int)
 
     def setSocket(self, kind='main'): 
@@ -38,17 +37,17 @@ class WillmannCLI(Plug):
                     min_port=10000, 
                     max_port=16000)
 
-    def portAction(self, port, args_dict):
+    def portAction(self, port, action, slots={}):
 
         socket = zmq.Context().socket(zmq.PUSH)
         socket.connect(f'tcp://localhost:{port}')
-        socket.send_json(args_dict)
+        slots['action']=action
+        socket.send_json(slots)
 
-    def modeAction(self, mode, args_dict):
+    def modeAction(self, mode, action, slots={}):
 
-        cmd={'command':'setModeAction', 
-             'mode':mode, 
-             'action': args_dict}
+        slots['action']=action
+        cmd={'command':'setModeAction', 'mode':mode, 'slots':slots}
         self.socket.send_json(cmd)
         print(self.socket.recv_json())
 
@@ -70,15 +69,22 @@ class WillmannCLI(Plug):
 
     def run(self):
 
-        args=self.parser.parse_args()
-
+        args, unknown = self.parser.parse_known_args()
+        
         if args.command=='mode':
+
+            slots={}
+            for i in range(0, len(unknown), 2):
+                slots[unknown[i][2:]]=unknown[i+1]
+
             if args.port:
                 self.setSocket(kind='port')
-                self.portAction(args.port, vars(args))
+                self.portAction(
+                        args.port, args.action, slots)
             elif args.mode:
                 self.setSocket(kind='main')
-                self.modeAction(args.mode, vars(args))
+                self.modeAction(
+                        args.mode, args.action, slots)
 
         else:
             self.setSocket(kind='main')
