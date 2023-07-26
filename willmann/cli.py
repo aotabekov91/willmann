@@ -1,4 +1,5 @@
 import zmq
+import json
 import argparse
 
 from plugin.plug import Plug
@@ -52,7 +53,10 @@ class WillmannCLI(Plug):
         slots['action']=action
         cmd={'command':'setModeAction', 'mode':mode, 'slots':slots}
         self.socket.send_json(cmd)
-        print(self.socket.recv_json())
+
+        response=self.socket.recv_json()
+        json_object = json.dumps(response, indent = 4) 
+        print(json_object)
 
     def appAction(self, command=None, slots={}):
 
@@ -61,7 +65,10 @@ class WillmannCLI(Plug):
         if command: slots={'command':command, 'slots':slots}
 
         self.socket.send_json(slots)
-        print(self.socket.recv_json())
+
+        response=self.socket.recv_json()
+        json_object = json.dumps(response, indent = 4) 
+        print(json_object)
 
     def runApp(self):
 
@@ -89,7 +96,7 @@ class WillmannCLI(Plug):
             elif args.mode:
                 self.modeAction(args.mode, args.command, slots)
             else:
-                self.appAction(slots=slots)
+                self.appAction(args.command, slots=slots)
         elif args.main=='run':
             self.runApp()
         elif args.main=='quit':
