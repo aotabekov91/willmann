@@ -54,11 +54,12 @@ class WillmannCLI(Plug):
         self.socket.send_json(cmd)
         print(self.socket.recv_json())
 
-    def appAction(self, action=None, slots={}):
+    def appAction(self, command=None, slots={}):
 
         self.setSocket(kind='main')
 
-        if action: slots={'action':action, 'slots':slots}
+        if command: slots={'command':command, 'slots':slots}
+
         self.socket.send_json(slots)
         print(self.socket.recv_json())
 
