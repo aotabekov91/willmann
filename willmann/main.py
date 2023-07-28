@@ -7,7 +7,7 @@ import importlib
 import multiprocessing
 from pathlib import Path
 
-from plugin.plug import Plug
+from plugin import Plug
 
 class Willmann(Plug):
 
@@ -15,14 +15,10 @@ class Willmann(Plug):
 
         super(Willmann, self).__init__()
 
-        self.data={}
         self.modes={}
         self.sockets={}
         self.mode_runner=[]
 
-        self.current=None
-        self.previous=None
-        self.last_command=None
         self.createConfig()
 
     def createConfig(self):
@@ -85,71 +81,43 @@ class Willmann(Plug):
             sys.path=[str(self.modes_path)]+sys.path
             for mode in os.listdir(self.modes_path): 
 
-                try:
-                    load(mode)
-                except:
-                    print('Error', mode)
+                load(mode)
 
-    def setMode(self, mode):
-
-        if mode!='currentMode':
-            self.previous=self.current
-            self.current=mode
-
-    def toggleCurrent(self): raise
+                # try:
+                #     load(mode)
+                # except:
+                #     print('Error', mode)
 
     def setListener(self): super().setListener(kind=zmq.REP)
 
-    def handle(self, r):
+    def handle(self, request):
 
-        if not r['command'] in ['storeData', 'accessData', 'currentMode']: print(r)
+        print(f'{self.name} received: ', request)
 
         try:
 
-            if r['command']=='currentMode':
-                msg={'status':'ok', 
-                     'currentMode':self.current,
-                     'lastCommand': self.last_command,
-                     }
-            elif r['command']=='previousMode':
-                msg={'status':'ok', 'previousMode':self.previous}
-            elif r['command']=='getModes':
+            command=request.get('command' , None)
+
+            if command=='getModes':
                 msg={'status':'ok', 'modes':self.modes}
-            elif r['command']=='setMode':
-                self.setMode(r.get('mode'))
-                msg={'status':'ok', 'currentMode':self.current}
-            elif r['command']=='getAllModes':
-                msg={'status':'ok', 'allModes':self.modes}
-            elif r['command']=='setModeAction':
-                mode=r['mode']
-                slots=r.get('slots', {})
-                action=slots.get('action', None)
-                if action:
-                    self.setMode(mode)
-                    self.act(mode, action, slots)
-                    msg={'status':'ok', 'action':'setModeAction', 'info': r}
-                else:
-                    msg={'status':'nok', 'action':'setModeAction', 'info': r}
-            elif r['command']=='notify':
-                self.act('NotifyMode', 'notify', r)
-                msg={'status':'ok', 'action':'setListener'}
-            elif r['command']=='storeData':
-                mode_store=self.data.get(r['mode'])
-                mode_store[r['name']]=r['data']
-                msg={'status':'ok', 'action':'storeData'}
-            elif r['command']=='accessData':
-                mode_store=self.data.get(r['mode'], {})
-                data=mode_store.get(r['name'], {})
-                msg={'status':'ok', 'action':'accessData', 'data':data}
-            elif r['command']=='register':
-                self.modes[r['mode']]=r
-                self.data[r['mode']]={}
-                self.createSocket(r)
-                self.act('Moder', 'Moder_update', {'modes':self.modes})
-                msg={'status':'ok', 'action': 'registeredMode', 'info': r['mode']}
-            elif r['command']=='quit':
+            elif command=='quit':
                 msg={'status':'ok', 'info':'exiting'}
                 self.exit()
+            elif command=='setModeAction':
+                mode=request['mode']
+                action=request.get('action', None)
+                if action:
+                    self.act(mode, action, request)
+                    msg={'status':'ok', 'action':'setModeAction', 'info': request}
+                else:
+                    msg={'status':'nok', 'action':'setModeAction', 'info': request}
+            elif command=='register':
+                mode=request['mode']
+                port=request['port']
+                self.modes[mode]=request
+                self.createSocket(mode, port)
+                self.act('Moder', 'update', {'action':'update', 'modes':self.modes})
+                msg={'status':'ok', 'action': 'registeredMode', 'info': request['mode']}
             else:
                 msg={'status':'nok', 'info':'request not understood'}
 
@@ -163,24 +131,27 @@ class Willmann(Plug):
         
         return msg
 
-    def createSocket(self, r):
+    def createSocket(self, mode, port):
 
         socket=zmq.Context().socket(zmq.PUSH)
-        socket.connect(f'tcp://localhost:{r["port"]}')
-        self.sockets[r['mode']]=socket
+        socket.connect(f'tcp://localhost:{port}')
+        self.sockets[mode]=socket
 
-    def act(self, mode, action, slots={}): 
+    def act(self, mode, action, request={}): 
 
-        if mode=='currentMode': mode=self.current
-        if mode in self.modes:
-            self.last_command=action.split('_')[-1]
-            socket=self.sockets.get(mode, None)
-            if socket: socket.send_json({'action': action, 'slots':slots})
+        socket=self.sockets.get(mode, None)
+        if socket: 
+            request['action']=action
+            socket.send_json(request)
 
     def run(self):
 
         self.loadModes()
         super().run()
+
+    def setConnection(self, kind=zmq.REP):
+
+        super().setConnection(kind)
 
     def exit(self):
 

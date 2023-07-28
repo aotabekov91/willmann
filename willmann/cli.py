@@ -39,32 +39,32 @@ class WillmannCLI(Plug):
                     min_port=10000, 
                     max_port=16000)
 
-    def portAction(self, port, action, slots={}):
+    def portAction(self, port, action, request={}):
 
         self.setSocket(kind='port')
         socket = zmq.Context().socket(zmq.PUSH)
         socket.connect(f'tcp://localhost:{port}')
-        slots['action']=action
-        socket.send_json(slots)
+        request['action']=action
+        socket.send_json(request)
 
-    def modeAction(self, mode, action, slots={}):
+    def modeAction(self, mode, action, request={}):
 
         self.setSocket(kind='main')
-        slots['action']=action
-        cmd={'command':'setModeAction', 'mode':mode, 'slots':slots}
-        self.socket.send_json(cmd)
+        request['action']=action
+        request['command']='setModeAction' 
+        request['mode']=mode
+        self.socket.send_json(request)
 
         response=self.socket.recv_json()
         json_object = json.dumps(response, indent = 4) 
         print(json_object)
 
-    def appAction(self, command=None, slots={}):
+    def appAction(self, command=None, request={}):
 
         self.setSocket(kind='main')
+        if command: request['command']=command
 
-        if command: slots={'command':command, 'slots':slots}
-
-        self.socket.send_json(slots)
+        self.socket.send_json(request)
 
         response=self.socket.recv_json()
         json_object = json.dumps(response, indent = 4) 
@@ -86,17 +86,17 @@ class WillmannCLI(Plug):
 
         args, unknown = self.parser.parse_known_args()
 
-        slots={}
+        request={}
         for i in range(0, len(unknown), 2):
-            slots[unknown[i][2:]]=unknown[i+1]
+            request[unknown[i][2:]]=unknown[i+1]
 
         if args.main=='action':
             if args.port:
-                self.portAction(args.port, args.command, slots)
+                self.portAction(args.port, args.command, request)
             elif args.mode:
-                self.modeAction(args.mode, args.command, slots)
+                self.modeAction(args.mode, args.command, request)
             else:
-                self.appAction(args.command, slots=slots)
+                self.appAction(args.command, request=request)
         elif args.main=='run':
             self.runApp()
         elif args.main=='quit':
