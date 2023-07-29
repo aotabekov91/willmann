@@ -88,7 +88,7 @@ class Willmann(Plug):
                 # except:
                 #     print('Error', mode)
 
-    def setListener(self): super().setListener(kind=zmq.REP)
+    def setConnection(self): super().setConnection(kind=zmq.REP)
 
     def handle(self, request):
 
@@ -147,11 +147,7 @@ class Willmann(Plug):
     def run(self):
 
         self.loadModes()
-        super().run()
-
-    def setConnection(self, kind=zmq.REP):
-
-        super().setConnection(kind)
+        super().run(answer=True)
 
     def exit(self):
 
