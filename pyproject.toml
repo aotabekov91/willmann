@@ -15,8 +15,8 @@ dependencies=[
 
 [project.scripts]
 
-willmannc="willmann.cli:run"
 willmann="willmann.main:run"
+willmannc="willmann.cli:run"
 
 [tools.setuptools.package-data]
 

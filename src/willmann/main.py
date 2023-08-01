@@ -57,7 +57,6 @@ class Willmann(Plug):
         def run_in_background(mode_class, willmann_port):
 
             def start(mode_class, willmann_port):
-
                 mode=mode_class(parent_port=willmann_port)
                 mode.run()
 
@@ -69,9 +68,10 @@ class Willmann(Plug):
 
         def load(mode):
 
-            plug=importlib.import_module(mode)
-            if hasattr(plug, 'get_mode'):
-                mode_class=plug.get_mode()
+            mode=importlib.import_module(mode)
+
+            if hasattr(mode, 'get_mode_class'):
+                mode_class=mode.get_mode_class()
                 run_in_background(mode_class, self.port)
 
         self.modes_path=self.config_folder/'modes'
@@ -81,12 +81,13 @@ class Willmann(Plug):
             sys.path=[str(self.modes_path)]+sys.path
             for mode in os.listdir(self.modes_path): 
 
+                # try:
+
+                # print(mode, sys.path)
                 load(mode)
 
-                # try:
-                #     load(mode)
                 # except:
-                #     print('Error', mode)
+                #     print(f'Willmann: Could not load mode {mode}')
 
     def setConnection(self): super().setConnection(kind=zmq.REP)
 
