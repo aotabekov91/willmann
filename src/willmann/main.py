@@ -83,7 +83,6 @@ class Willmann(Plug):
 
                 # try:
 
-                # print(mode, sys.path)
                 load(mode)
 
                 # except:
