@@ -1,5 +1,5 @@
-from plugin.app.mode import AppMode
-from plugin.widget import InputListStack
+from qapp.app.mode import AppMode
+from qapp.widget import InputListStack
 
 class Moder(AppMode):
 

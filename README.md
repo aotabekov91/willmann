@@ -4,20 +4,20 @@ It is a launcher that can run (almost) everything you need. It is tested only on
 
 ## Install
 
-It requires the following package: [plugin](https://github.com/aotabekov91/plugin) You can also simply run a bash build command:
+It requires the following package: [plug](https://github.com/aotabekov91/plug) You can also simply run a bash build command:
 
 ```bash
 mkdir /tmp/willmann_code
 cd /tmp/willmann_code
 
-git clone https://github.com/aotabekov91/plugin
+git clone https://github.com/aotabekov91/plug
 git clone https://github.com/aotabekov91/willmann
 
 # Create a virtual environment
 # python -m venv venv
 # source venv/bin/activate
 
-cd plugin
+cd plug
 pip3 install -r requirements.txt .
 cd ..
 

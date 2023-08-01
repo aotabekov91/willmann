@@ -7,7 +7,7 @@ import importlib
 import multiprocessing
 from pathlib import Path
 
-from plugin import Plug
+from plug import Plug
 
 class Willmann(Plug):
 
@@ -69,9 +69,9 @@ class Willmann(Plug):
 
         def load(mode):
 
-            plugin=importlib.import_module(mode)
-            if hasattr(plugin, 'get_mode'):
-                mode_class=plugin.get_mode()
+            plug=importlib.import_module(mode)
+            if hasattr(plug, 'get_mode'):
+                mode_class=plug.get_mode()
                 run_in_background(mode_class, self.port)
 
         self.modes_path=self.config_folder/'modes'
@@ -153,3 +153,8 @@ class Willmann(Plug):
 
         for mode in self.modes: self.act(mode, 'exit')
         super().exit()
+
+def run():
+
+    app=Willmann()
+    app.run()

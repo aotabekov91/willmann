@@ -2,7 +2,7 @@ import zmq
 import json
 import argparse
 
-from plugin.plug import Plug
+from plug import Plug
 
 from .main import Willmann
 
@@ -18,9 +18,7 @@ class WillmannCLI(Plug):
 
         self.subparser=self.parser.add_subparsers(dest='main')
 
-        self.subparser.add_parser('run')
         self.subparser.add_parser('quit')
-        self.subparser.add_parser('restart')
         self.action_parser=self.subparser.add_parser('action')
 
         self.action_parser.add_argument('-m', '--mode')
@@ -97,14 +95,10 @@ class WillmannCLI(Plug):
                 self.modeAction(args.mode, args.command, request)
             else:
                 self.appAction(args.command, request=request)
-        elif args.main=='run':
-            self.runApp()
         elif args.main=='quit':
             self.appAction('quit')
-        elif args.main=='restart':
-            self.appAction('restart')
 
-if __name__=='__main__':
+def run():
 
-    cli = WillmannCLI()
-    cli.run()
+   app=WillmannCLI()
+   app.run()

@@ -1,0 +1,27 @@
+[build-system]
+
+requires=["setuptools"]
+build-backend="setuptools.build_meta"
+
+[project]
+
+name="willmann"
+version="0.0.1"
+description='Willmann - launcher'
+dependencies=[
+	"plug==0.0.1",
+	"pyzmq==25.0.2",
+]
+
+[project.scripts]
+
+willmannc="willmann.cli:run"
+willmann="willmann.main:run"
+
+[tools.setuptools.package-data]
+
+"*"=["*"]
+
+[tools.setuptools.packages.find]
+
+where=["src"]
