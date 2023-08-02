@@ -1,6 +1,5 @@
 import zmq
 import json
-import argparse
 
 from plug import Plug
 
@@ -10,11 +9,9 @@ class WillmannCLI(Plug):
 
     def setConnection(self): pass
 
-    def setSettings(self):
+    def setParser(self):
 
-        super().setSettings()
-
-        self.parser=argparse.ArgumentParser()
+        super().setParser()
 
         self.subparser=self.parser.add_subparsers(dest='main')
 
