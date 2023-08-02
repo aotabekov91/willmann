@@ -13,13 +13,15 @@ class Willmann(Plug):
 
     def __init__(self):
 
-        super(Willmann, self).__init__()
+        super(Willmann, self).__init__(respond_port=True)
 
         self.modes={}
         self.sockets={}
         self.mode_runner=[]
+        self.modes_path=None
 
         self.createConfig()
+        self.loadModes()
 
     def createConfig(self):
 
@@ -45,10 +47,7 @@ class Willmann(Plug):
 
         super().setSettings()
 
-        self.modes_path=None
-        file_path=os.path.abspath(inspect.getfile(self.__class__))
-        folder_path=os.path.dirname(file_path).replace('\\', '/')
-        modes_path=os.path.join(folder_path, 'modes')
+        modes_path=os.path.join(self.path, 'modes')
         if os.path.exists(modes_path): 
             self.modes_path=modes_path
 
@@ -69,7 +68,6 @@ class Willmann(Plug):
         def load(mode):
 
             mode=importlib.import_module(mode)
-
             if hasattr(mode, 'get_mode_class'):
                 mode_class=mode.get_mode_class()
                 run_in_background(mode_class, self.port)
@@ -143,11 +141,6 @@ class Willmann(Plug):
         if socket: 
             request['action']=action
             socket.send_json(request)
-
-    def run(self):
-
-        self.loadModes()
-        super().run(answer=True)
 
     def exit(self):
 
