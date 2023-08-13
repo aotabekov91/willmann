@@ -1,2 +1,25 @@
 Settings: 
   port: 9999
+
+Lookup:
+  Settings:
+    port: 43110
+    generator_port: 43111
+  System:
+    activate: Alt+d
+
+Generator:
+  Settings:
+    generator_port: 43111
+
+Execute:
+  System:
+    activate: Alt+e
+
+Command:
+  System:
+    activate: Alt+c
+
+Bookmark:
+  System:
+    activate: Alt+s
