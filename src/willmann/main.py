@@ -1,6 +1,5 @@
 import os
 import sys
-import zmq
 import shutil
 import inspect
 import importlib
@@ -20,13 +19,13 @@ class Willmann(Plug):
         self.mode_runner=[]
         self.modes_path=None
 
-        self.createConfig()
+        self.createFolder()
         self.loadModes()
 
-    def createConfig(self):
+    def createFolder(self):
 
-        super().createConfig('~/.config/willmann')
-        self.modes_path=self.config_folder/'modes'
+        super().createFolder('~/.config/willmann')
+        self.modes_path=self.folder/'modes'
 
         if not os.path.exists(
                 os.path.expanduser('~/.config/willmann/modes')):
@@ -38,10 +37,10 @@ class Willmann(Plug):
                     str(self.modes_path), 
                     dirs_exist_ok=True)
 
-        if not os.path.exists(self.config_folder/'config.ini'):
+        if not os.path.exists(self.folder/'config.ini'):
             shutil.copy(
                     str(path.parent/'config.ini'), 
-                    str(self.config_folder/'config.ini'))
+                    str(self.folder/'config.ini'))
 
     def setSettings(self):
 
@@ -72,7 +71,7 @@ class Willmann(Plug):
                 mode_class=mode.get_mode_class()
                 run_in_background(mode_class, self.port)
 
-        self.modes_path=self.config_folder/'modes'
+        self.modes_path=self.folder/'modes'
 
         if self.modes_path:
 
@@ -86,7 +85,7 @@ class Willmann(Plug):
                 # except:
                 #     print(f'Willmann: Could not load mode {mode}')
 
-    def setConnection(self): super().setConnection(kind=zmq.REP)
+    def setConnection(self): super().setConnection(kind='REP')
 
     def handle(self, request):
 
@@ -131,7 +130,7 @@ class Willmann(Plug):
 
     def createSocket(self, mode, port):
 
-        socket=zmq.Context().socket(zmq.PUSH)
+        socket=self.getConnection(kind='PUSH')
         socket.connect(f'tcp://localhost:{port}')
         self.sockets[mode]=socket
 

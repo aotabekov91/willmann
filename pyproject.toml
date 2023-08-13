@@ -10,7 +10,6 @@ version="0.0.1"
 description='Willmann - launcher'
 dependencies=[
 	"plug==0.0.1",
-	"pyzmq==25.0.2",
 ]
 
 [project.scripts]

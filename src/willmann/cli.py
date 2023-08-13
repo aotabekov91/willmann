@@ -1,4 +1,3 @@
-import zmq
 import json
 
 from plug import Plug
@@ -25,10 +24,10 @@ class WillmannCLI(Plug):
     def setSocket(self, kind='main'): 
 
         if kind=='main':
-            self.socket = zmq.Context().socket(zmq.REQ)
+            self.socket = self.getConnection(kind='REQ')
             self.socket.connect(f'tcp://localhost:{self.port}')
         elif kind=='port':
-            self.socket=zmq.Context().socket(zmq.PUSH)
+            self.socket = self.getConnection(kind='PUSH')
             self.port=self.socket.bind_to_random_port(
                     'tcp://*', 
                     min_port=10000, 
@@ -37,7 +36,7 @@ class WillmannCLI(Plug):
     def portAction(self, port, action, request={}):
 
         self.setSocket(kind='port')
-        socket = zmq.Context().socket(zmq.PUSH)
+        socket = self.getConnection(kind='PUSH')
         socket.connect(f'tcp://localhost:{port}')
         request['action']=action
         socket.send_json(request)

@@ -4,36 +4,7 @@ It is a launcher that can run (almost) everything you need. It is tested only on
 
 ## Install
 
-It requires the following package: [plug](https://github.com/aotabekov91/plug) You can also simply run a bash build command:
-
-```bash
-mkdir /tmp/willmann_code
-cd /tmp/willmann_code
-
-git clone https://github.com/aotabekov91/plug
-git clone https://github.com/aotabekov91/willmann
-
-# Create a virtual environment
-# python -m venv venv
-# source venv/bin/activate
-
-cd plug
-pip3 install -r requirements.txt .
-cd ..
-
-# Remove previous willmann config files
-# rm -rf $HOME/.config/willmann/config.ini
-# Remove previous willmann modes 
-# rm -rf $HOME/.config/willmann/modes
-# rm -rf $HOME/.config/willmann
-
-cd willmann
-pip3 install -r requirements.txt .
-
-cd $HOME
-rm -rf /tmp/willmann_code
-willmann
-```
+TODO
 
 ## Usage
 
